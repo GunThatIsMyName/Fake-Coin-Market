@@ -168,3 +168,10 @@ button {
 button:hover,button:focus {
   background-color: #E3C131;
 }
+
+.bull {
+  color: var(--color-green);
+}
+.bearish {
+  color: var(--color-red);
+}

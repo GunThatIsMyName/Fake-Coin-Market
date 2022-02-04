@@ -24,7 +24,7 @@ function Hero() {
     getCoinData();
   }, [page]);
 
-  console.log(coin,"coin")
+  console.log(coin, "coin");
 
   return (
     <HeroWrapper>
