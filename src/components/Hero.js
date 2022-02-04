@@ -3,11 +3,11 @@ import Coin from "./Coin";
 import { setCoins } from "../redux/actions/CoinAction";
 import { coinApiEndPoint } from "../utils/Api";
 import { useEffect, useState } from "react";
-import { HeroWrapper } from "../styles/Hero.style";
+import { HeroWrapper, HeroEvent } from "../styles/Hero.style";
+import { CoinItem } from "./Hero/CoinItem";
 
 function Hero() {
   const [page, setPage] = useState(1);
-
   const dispatch = useDispatch();
   const { coin } = useSelector((state) => state.coin);
 
@@ -24,23 +24,28 @@ function Hero() {
     getCoinData();
   }, [page]);
 
-  // const coinList = coin.splice(0,5);
-  // console.log(coinList)
+  console.log(coin,"coin")
 
   return (
-    <HeroWrapper className="App">
-      <h1>Buy & sell Crypto in minutes</h1>
+    <HeroWrapper>
+      <HeroEvent>
+        <div className="hero__event">
+          <h1>Buy & sell Crypto in minutes</h1>
+          <p>Join the world's largest crypto exchange</p>
+          <button>Discover More</button>
+        </div>
+        <div className="hero__coin">
+          {coin
+            .map((item) => {
+              return <CoinItem key={item.id} {...item} />;
+            })
+            .splice(0, 5)}
+        </div>
+      </HeroEvent>
 
-      <p>Join the world's largest crypto exchange</p>
+      {/* Hero  */}
 
-      <button>Discover More</button>
-
-      {coin
-        .map((item) => {
-          return <h1 key={item.id}>{item.name}</h1>;
-        })
-        .splice(0, 5)}
-      <h1>------</h1>
+      <h1 className="hero__line">Market List</h1>
 
       {coin.map((item) => {
         return <Coin key={item.id} {...item} />;
