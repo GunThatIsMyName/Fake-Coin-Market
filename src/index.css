@@ -139,6 +139,10 @@ q:after {
   content: "";
   content: none;
 }
+a {
+  color: inherit;
+  text-decoration: none; /* no underline */
+}
 table {
   border-collapse: collapse;
   border-spacing: 0;

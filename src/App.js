@@ -1,6 +1,11 @@
 import {BrowserRouter,Routes,Route} from "react-router-dom";
-import Hero from "./components/Hero";
+
+// Components
 import Navbar from "./components/Navbar";
+
+// Page
+import Hero from "./components/Hero";
+import SingleCoin from "./Page/SingleCoin";
 
 function App() {
   return (
@@ -8,6 +13,7 @@ function App() {
     <Navbar />
     <Routes>
       <Route path="/" element={<Hero />} />
+      <Route path="/:id" element={<SingleCoin />} />
     </Routes>
     </BrowserRouter>
   );

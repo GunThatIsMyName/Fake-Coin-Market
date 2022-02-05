@@ -1,6 +1,7 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-export const CoinWrapper = styled.div`
+export const CoinWrapper = styled(Link)`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;

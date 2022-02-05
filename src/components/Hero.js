@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 // REDUX ---------
 import { useSelector, useDispatch } from "react-redux";
-import { setCoins } from "../redux/actions/CoinAction";
+import { resetCoins, setCoins } from "../redux/actions/CoinAction";
 
 // STYLES AND UTILS
 import { coinApiEndPoint } from "../utils/Api";
@@ -28,6 +28,9 @@ const Hero=()=>{
 
   useEffect(() => {
     getCoinData();
+    // return()=>{
+    //   dispatch(resetCoins())
+    // }
     // eslint-disable-next-line
   }, [page]);
 

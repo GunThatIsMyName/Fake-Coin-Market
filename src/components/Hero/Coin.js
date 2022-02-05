@@ -12,7 +12,8 @@ function Coin({
   market_cap,
 }) {
   return (
-    <CoinWrapper id={id}>
+    <CoinWrapper id={id} to={{pathname:id,state:{id:"HELLO",symbol:"SYMBOL",name}}}>
+      
       <div className="coin__main">
         <img className="coin__logo" src={image} alt={name} />
         <div className="coin__symbol">
@@ -36,7 +37,6 @@ function Coin({
       >
         {price_change_percentage_24h.toFixed(2)}%
       </h4>
-      
     </CoinWrapper>
   );
 }
