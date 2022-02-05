@@ -13,11 +13,11 @@ import {
 import { SingleCoinWrapper } from "../styles/SingleCoin.style";
 import { currencyConverter } from "../utils/helps";
 import { useState } from "react";
-import { SingleHeader } from "../styles/SingleHeader";
+import { HashTagsWrapper, SingleHeader } from "../styles/SingleHeader";
+import { BoxWrapper } from "../styles/SingleBox.style";
 
 const SingleCoin = () => {
   const [isKorean, setKorean] = useState(true);
-
   const { id: coinID } = useParams();
   const dispatch = useDispatch();
   const { singleItem, loading } = useSelector((state) => state.singleCoin);
@@ -92,6 +92,8 @@ const SingleCoin = () => {
     total_supply,
   } = market_data;
 
+  console.log(homepage);
+
   return (
     <SingleCoinWrapper>
       {/* HEADER */}
@@ -108,71 +110,85 @@ const SingleCoin = () => {
           {price_change_percentage_24h.toFixed(2)}%
         </h1>
 
-        <p>{last_updated}</p>
+        <p className="single__date last__updated">{last_updated}</p>
       </SingleHeader>
 
       <hr />
-      <div className="hashtags">
+      <HashTagsWrapper className="hashtags">
         {categories.map((item) => {
           return <li key={item}>#{item}</li>;
         })}
-      </div>
+      </HashTagsWrapper>
 
-      {/* MAIN */}
-      {/* MAIN */}
-      <main>
+      <BoxWrapper>
         <div className="box">
           <div className="box__btn">
-            <button onClick={() => setKorean(false)}>EN</button>
             <button onClick={() => setKorean(true)}>한국어</button>
+            <button onClick={() => setKorean(false)}>ENG</button>
           </div>
           <h4
             dangerouslySetInnerHTML={{
-              __html: isKorean ? description.ko : description.en,
+              __html: isKorean
+                ? description.ko
+                  ? description.ko
+                  : "한국어 정보가 없습니다. 죄송합니다."
+                : description.en
+                ? description.en
+                : "NO English Information Sorry.",
             }}
           />
         </div>
-
         <div className="main">
-          <h3>{name} 정보</h3>
-          <div>
-            홈페이지 :
-            <a target={"_blank"} rel="noreferrer" href={homepage}>
-              {homepage}
+          <h3 className="main__title">{name} 정보</h3>
+          <div className="main__homepage">
+            공식 홈페이지 :
+            <a target={"_blank"} rel="noreferrer" href={homepage[0]}>
+              {homepage[0]}
             </a>
           </div>
 
-          <ul>
-            {github.length > 0 && <h1>github</h1>}
-            {github.length > 0 &&
-              github.map((item) => {
-                return <a style={{display:"block"}} target={"_blank"} href={item} rel="noreferrer"  key={item}>{item}</a>;
-              })}
-            {bitbucket.length > 0 && <h1>bitbucket</h1>}
-            {bitbucket.length > 0
-              ? bitbucket.map((item) => {
-                  return <li key={item}>{item}</li>;
+          <ul className="main__source__code main__list">
+            <h3>Source Code 사이트 : </h3>
+            {github.length > 0
+              ? github.map((item) => {
+                  return (
+                    <a
+                      style={{ display: "block" }}
+                      target={"_blank"}
+                      href={item}
+                      rel="noreferrer"
+                      key={item}
+                    >
+                      {item}
+                    </a>
+                  );
                 })
               : null}
           </ul>
 
-          <p>시가총액 순위 : {market_cap_rank}</p>
+          <div className="main__coin__info">
+            <h3>시가 총액 : {currencyConverter(marketCap)}원</h3>
+            <h3>시가총액 순위 : {market_cap_rank}위</h3>
+            <h3>
+              총 발행량 : {total_supply ? total_supply.toLocaleString() : "00"}{" "}
+              코인
+            </h3>
+            <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
+          </div>
 
-          <div>
-          <h1>현재 가격 :{currentPrice.toLocaleString()} 원</h1>
-          <h3>최고가 : {allth.toLocaleString()}원</h3>
-          <h3>최고 일시 : {highDate}</h3>
-          <h3>최저가 : {alltl.toLocaleString()}원</h3>
-          <h3>최저 일시 : {lowDate}</h3>
+          <footer className="main__footer">
+            <div className="main__high">
+              <h3 className="bull">최고가 : {allth.toLocaleString()}원</h3>
+              <h3>최고 일시 : {highDate.slice(0, 10)}</h3>
+            </div>
 
-          <h3>시가 총액 : {currencyConverter(marketCap)}원</h3>
-          <h3>
-            총 발행량 : {total_supply ? total_supply.toLocaleString() : "00"}{" "}
-            코인
-          </h3>
+            <div className="main__low">
+              <h3 className="bearish">최저가 : {alltl.toLocaleString()}원</h3>
+              <h3>최저 일시 : {lowDate.slice(0, 10)}</h3>
+            </div>
+          </footer>
         </div>
-        </div>
-      </main>
+      </BoxWrapper>
 
       <hr />
     </SingleCoinWrapper>

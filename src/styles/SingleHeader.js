@@ -13,7 +13,21 @@ export const SingleHeader = styled.div`
             margin-right:10px;
         }
     }
-    p {
+    .single__date {
       color: var(--color-grey);
+    }
+`;
+
+export const HashTagsWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    li {
+      border-radius: 5px;
+      color: var(--color-white);
+      background-color: var(--color-grey);
+      margin-right: 5px;
+      padding: 5px;
+      margin-bottom:10px;
     }
 `;
