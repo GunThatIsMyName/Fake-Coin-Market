@@ -13,6 +13,7 @@ import {
 import { SingleCoinWrapper } from "../styles/SingleCoin.style";
 import { currencyConverter } from "../utils/helps";
 import { useState } from "react";
+import { SingleHeader } from "../styles/SingleHeader";
 
 const SingleCoin = () => {
   const [isKorean, setKorean] = useState(true);
@@ -94,9 +95,9 @@ const SingleCoin = () => {
   return (
     <SingleCoinWrapper>
       {/* HEADER */}
-      <div className="header">
-        <div>
-          <img src={coinLogo} alt={name} />
+      <SingleHeader className="single__header">
+        <div className="single__logo">
+          <img className="single__image" src={coinLogo} alt={name} />
           <h4 className="single__coin">
             {name.toUpperCase()} / {symbol.toUpperCase()}
           </h4>
@@ -108,7 +109,7 @@ const SingleCoin = () => {
         </h1>
 
         <p>{last_updated}</p>
-      </div>
+      </SingleHeader>
 
       <hr />
       <div className="hashtags">
@@ -117,14 +118,13 @@ const SingleCoin = () => {
         })}
       </div>
 
-{/* MAIN */}
-{/* MAIN */}
+      {/* MAIN */}
+      {/* MAIN */}
       <main>
         <div className="box">
           <div className="box__btn">
-
-          <button onClick={() => setKorean(false)}>EN</button>
-          <button onClick={() => setKorean(true)}>한국어</button>
+            <button onClick={() => setKorean(false)}>EN</button>
+            <button onClick={() => setKorean(true)}>한국어</button>
           </div>
           <h4
             dangerouslySetInnerHTML={{
@@ -134,39 +134,31 @@ const SingleCoin = () => {
         </div>
 
         <div className="main">
-          <h2>hello</h2>
-          <h2>hello</h2>
-          <h2>hello</h2>
-          <h2>hello</h2>
-        </div>
-      </main>
+          <h3>{name} 정보</h3>
+          <div>
+            홈페이지 :
+            <a target={"_blank"} rel="noreferrer" href={homepage}>
+              {homepage}
+            </a>
+          </div>
 
-{/* main */}
-{/* main */}
-      <hr />
-      <div className="head">
-        <p>{market_cap_rank}</p>
-
-        {/* main */}
-
-        <div>
-          <h3>홈페이지 : {homepage}</h3>
           <ul>
-            {github && <h1>github</h1>}
+            {github.length > 0 && <h1>github</h1>}
             {github.length > 0 &&
               github.map((item) => {
-                return <li key={item}>{item}</li>;
+                return <a style={{display:"block"}} target={"_blank"} href={item} rel="noreferrer"  key={item}>{item}</a>;
               })}
-            {bitbucket && <h1>bitbucket</h1>}
+            {bitbucket.length > 0 && <h1>bitbucket</h1>}
             {bitbucket.length > 0
               ? bitbucket.map((item) => {
                   return <li key={item}>{item}</li>;
                 })
               : null}
           </ul>
-        </div>
 
-        <div>
+          <p>시가총액 순위 : {market_cap_rank}</p>
+
+          <div>
           <h1>현재 가격 :{currentPrice.toLocaleString()} 원</h1>
           <h3>최고가 : {allth.toLocaleString()}원</h3>
           <h3>최고 일시 : {highDate}</h3>
@@ -175,11 +167,14 @@ const SingleCoin = () => {
 
           <h3>시가 총액 : {currencyConverter(marketCap)}원</h3>
           <h3>
-            총 발행량 : {total_supply ? total_supply.toLocaleString() : "무한"}{" "}
+            총 발행량 : {total_supply ? total_supply.toLocaleString() : "00"}{" "}
             코인
           </h3>
         </div>
-      </div>
+        </div>
+      </main>
+
+      <hr />
     </SingleCoinWrapper>
   );
 };

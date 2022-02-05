@@ -6,23 +6,6 @@ export const SingleCoinWrapper = styled.section`
   width: 80%;
   margin: auto;
   /* border:1px solid var(--color-grey); */
-  .header {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    align-items:center;
-    div{
-        display:flex;
-        align-items:center;
-        img{
-            width:40px;
-            height:40px;
-            margin-right:10px;
-        }
-    }
-    p {
-      color: var(--color-grey);
-    }
-  }
 
   .hashtags {
     display: flex;
