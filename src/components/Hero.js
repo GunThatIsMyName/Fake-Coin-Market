@@ -1,12 +1,18 @@
-import { useSelector, useDispatch } from "react-redux";
-import Coin from "./Coin";
-import { setCoins } from "../redux/actions/CoinAction";
-import { coinApiEndPoint } from "../utils/Api";
 import { useEffect, useState } from "react";
+
+// REDUX ---------
+import { useSelector, useDispatch } from "react-redux";
+import { setCoins } from "../redux/actions/CoinAction";
+
+// STYLES AND UTILS
+import { coinApiEndPoint } from "../utils/Api";
 import { HeroWrapper, HeroEvent } from "../styles/Hero.style";
+
+// COMPONENTS
+import Coin from "./Hero/Coin";
 import { CoinItem } from "./Hero/CoinItem";
 
-function Hero() {
+const Hero=()=>{
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const { coin } = useSelector((state) => state.coin);
@@ -22,6 +28,7 @@ function Hero() {
 
   useEffect(() => {
     getCoinData();
+    // eslint-disable-next-line
   }, [page]);
 
   console.log(coin, "coin");

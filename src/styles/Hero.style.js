@@ -9,6 +9,9 @@ export const HeroWrapper = styled.div`
       font-weight:bold;
       margin:2rem 0;
   }
+  @media screen and (max-width:500px){
+    width: 90%;
+  }
 `;
 
 export const HeroEvent = styled.div`
@@ -35,5 +38,4 @@ export const HeroEvent = styled.div`
       justify-content:space-between;
       flex-wrap:wrap;
   }
-
 `;
