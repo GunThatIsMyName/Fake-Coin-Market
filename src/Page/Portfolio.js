@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { userProfitData } from "../redux/actions/UserAction";
 import { PortfolioWrapper } from "../styles/Portfolio.style";
-import { myTotalCoin } from "../utils/helps";
+import { myTotalCoin, uniqueCoins } from "../utils/helps";
 
 const Portfolio = () => {
-  const { haveCoins, name, money } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const { haveCoins, money } = useSelector((state) => state.user);
+
+  const myCoins = async()=>{
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${uniqueCoins(haveCoins)}&vs_currencies=krw`);
+    const data = await response.json();
+    dispatch(userProfitData(data));
+  }
+
+  useEffect(()=>{
+    myCoins()
+  },[])
+
   return (
     <PortfolioWrapper>
       <div className="coin__list">
@@ -23,7 +37,7 @@ const Portfolio = () => {
                 <img src={coinLogo} alt={name} />
                 <h2>{name}</h2>
               </div>
-              <p>{previousPrice.toLocaleString()}원</p>
+              <p>{previousPrice}원</p>
               <p>
                 {newCount} {symbol}
               </p>
@@ -36,7 +50,7 @@ const Portfolio = () => {
         })}
       </div>
 
-      <h3>사용 가능 자산 : {money.toLocaleString()}원</h3>
+      <h3>사용 가능 자산 : {money}원</h3>
 
       <h3>
         코인 자산 : {Math.floor(myTotalCoin(haveCoins)).toLocaleString()} 원

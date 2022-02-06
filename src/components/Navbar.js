@@ -48,7 +48,7 @@ function Navbar() {
           <>
             <div className="user__info">
               <h1>유저 : {name}</h1>
-              <h4> 자산 총액 {money.toLocaleString()} 원</h4>
+              <h4> 자산 총액 {money} 원</h4>
             </div>
             <Link to="/portfolio">
             <button>자산 포트폴리오</button>

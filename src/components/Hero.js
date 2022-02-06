@@ -12,7 +12,7 @@ import { HeroWrapper, HeroEvent } from "../styles/Hero.style";
 import Coin from "./Hero/Coin";
 import { CoinItem } from "./Hero/CoinItem";
 
-const Hero=()=>{
+const Hero = () => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const { coin } = useSelector((state) => state.coin);
@@ -28,11 +28,13 @@ const Hero=()=>{
 
   useEffect(() => {
     getCoinData();
-    // return()=>{
-    //   dispatch(resetCoins())
-    // }
-    // eslint-disable-next-line
   }, [page]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetCoins());
+    };
+  }, []);
 
   console.log(coin, "coin");
 
@@ -64,6 +66,6 @@ const Hero=()=>{
       <button onClick={() => setPage((prev) => prev + 1)}>More Coins</button>
     </HeroWrapper>
   );
-}
+};
 
 export default Hero;

@@ -38,6 +38,22 @@ export const SingleCoinWrapper = styled.section`
     }
   } */
 
+  .main__form{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    .form__btn{
+      .form__buy__box{
+        margin-bottom:10px;
+      }
+      button{
+        margin-right:1rem;
+        font-size:1.5rem;
+        padding:10px 2rem;
+      }
+    }
+  }
+
   main {
     display: flex;
     grid-gap: 2rem;

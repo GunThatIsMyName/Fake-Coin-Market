@@ -26,3 +26,15 @@ export const currencyConverter = (price) => {
       return total+= curr.currentPrice * curr.newCount
     },0)
   }
+
+
+export const myCoinCount = (list)=>{
+  return list.reduce((total,curr)=>{
+    return total += parseFloat(curr.newCount);
+  },0)
+}
+
+export const uniqueCoins=(data)=>{
+  const list = [...new Set(data.map(item=>item.name))];
+  return list.join(",");
+}

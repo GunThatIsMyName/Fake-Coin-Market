@@ -10,7 +10,7 @@ import {
 } from "../redux/actions/SingleCoinAction";
 
 // STYLE AND UTILS
-import { currencyConverter } from "../utils/helps";
+import { currencyConverter, myCoinCount } from "../utils/helps";
 import { SingleCoinWrapper } from "../styles/SingleCoin.style";
 import { HashTagsWrapper, SingleHeader } from "../styles/SingleHeader";
 import { BoxWrapper } from "../styles/SingleBox.style";
@@ -25,8 +25,16 @@ const SingleCoin = () => {
   const dispatch = useDispatch();
   const {
     singleCoin: { singleItem, loading },
-    user: { name: userName, money },
+    user: { name: userName, money, haveCoins },
   } = useSelector((state) => state);
+
+  const haveCoinCount = (data) => {
+    return data.filter((item) => {
+      if (item.symbol === singleItem.symbol) {
+        return item;
+      }
+    });
+  };
 
   // const data = useSelector(state=>state);
   // console.log(data,"data")
@@ -82,7 +90,7 @@ const SingleCoin = () => {
     if (tempPrice > money) {
       return alert("돈이 부족합니다!! 자산 포트폴리오를 확인해주세요 ");
     }
-    dispatch(userBuyData({ newCount, symbol, name, currentPrice,coinLogo }));
+    dispatch(userBuyData({ newCount, symbol, name, currentPrice, coinLogo }));
     setPopUp(true);
     setCount(0);
     setTemp(0);
@@ -126,7 +134,6 @@ const SingleCoin = () => {
     total_supply,
   } = market_data;
 
-  console.log(popUp, "popUp");
   return (
     <SingleCoinWrapper>
       {/* HEADER */}
@@ -206,13 +213,16 @@ const SingleCoin = () => {
               <h3>
                 구매 가능 코인 :{money / currentPrice} {symbol.toUpperCase()}{" "}
               </h3>
-              <input
-                type="number"
-                onChange={() => null}
-                value={money / currentPrice}
-              />
-              <h3>주문 총액 : {tempPrice.toLocaleString()}원</h3>
 
+              <h3>
+                보유 코인 :{myCoinCount(haveCoinCount(haveCoins))}{" "}
+                {symbol.toUpperCase()}{" "}
+              </h3>
+              <h3>현재 잔고 :{money.toLocaleString()} 원 </h3>
+            </div>
+            <div className="form__btn">
+              <div className="form__buy__box">
+              <h3>주문 총액 : {tempPrice.toLocaleString()}원</h3>
               <label htmlFor="price">주문 수량</label>
               <input
                 type="number"
@@ -220,13 +230,10 @@ const SingleCoin = () => {
                 value={newCount}
                 step={0.1}
                 onChange={handleChange}
-              />
-              <h3>보유 코인 :0 {symbol.toUpperCase()} </h3>
-              <h3>현재 잔고 :{money.toLocaleString()} </h3>
-            </div>
-            <div className="form__btn">
-              <button onClick={handleBuy}>매수</button>
-              <button>매도</button>
+                />
+                </div>
+              <button className="bull" onClick={handleBuy}>매수</button>
+              <button className="bearish" >매도</button>
             </div>
           </form>
 
