@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // REDUX
@@ -14,12 +14,20 @@ import { currencyConverter } from "../utils/helps";
 import { SingleCoinWrapper } from "../styles/SingleCoin.style";
 import { HashTagsWrapper, SingleHeader } from "../styles/SingleHeader";
 import { BoxWrapper } from "../styles/SingleBox.style";
+import { userBuyData } from "../redux/actions/UserAction";
 
 const SingleCoin = () => {
   const [isKorean, setKorean] = useState(true);
+
+  const [newCount,setCount]=useState(0);
+  const [tempPrice,setTemp]=useState(0);
   const { id: coinID } = useParams();
   const dispatch = useDispatch();
-  const { singleItem, loading } = useSelector((state) => state.singleCoin);
+  const { singleCoin:{singleItem, loading},user:{name:userName,money} } = useSelector((state) => state);
+
+
+  // const data = useSelector(state=>state);
+  // console.log(data,"data")
 
   const getSingleData = async () => {
     dispatch(loadingSingleCoin());
@@ -56,6 +64,26 @@ const SingleCoin = () => {
     }
   };
 
+
+  // FORM
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+  }
+  const handleChange=(e)=>{
+    const newPrice = e.target.value * currentPrice;
+    setCount(e.target.value)
+    setTemp(newPrice);
+  }
+  const handleBuy=()=>{
+    if(tempPrice <= 0){
+      return;
+    }
+    if(tempPrice > money){
+      return console.log("Can't afford it")
+    }
+    dispatch(userBuyData({newCount,symbol,name,currentPrice}));
+  }
+
   useEffect(() => {
     getSingleData();
   }, [coinID]);
@@ -90,8 +118,6 @@ const SingleCoin = () => {
     market_cap: { krw: marketCap },
     total_supply,
   } = market_data;
-
-  console.log(homepage);
 
   return (
     <SingleCoinWrapper>
@@ -146,10 +172,14 @@ const SingleCoin = () => {
             </a>
           </div>
 
-          <ul className="main__source__code main__list">
-            <h3>Source Code 사이트 : </h3>
-            <a href={github[0]}>{github[0]}</a>
-          </ul>
+          {github[0] && (
+            <ul className="main__source__code main__list">
+              <h3>Source Code 사이트 : </h3>
+              <a target={"_blank"} rel="noreferrer" href={github[0]}>
+                {github[0]}
+              </a>
+            </ul>
+          )}
 
           <div className="main__coin__info">
             <h3>시가 총액 : {currencyConverter(marketCap)}원</h3>
@@ -158,21 +188,22 @@ const SingleCoin = () => {
               총 발행량 : {total_supply ? total_supply.toLocaleString() : "00"}{" "}
               코인
             </h3>
-            <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
           </div>
 
           {/* main BUY */}
 
-          <form className="main__form">
-            <label htmlFor="price">현재 가격 : </label>
-            <input name="price" id="price" type="number" placeholder={`${currentPrice.toLocaleString()}원`}  />
+          <form onSubmit={handleSubmit} className="main__form">
+            <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
+            <h3>구매 가능 코인 :{money / currentPrice} {symbol.toUpperCase()} </h3>
+            <input type="number" onChange={()=>null} value={money / currentPrice} />
+            <h3>주문 총액 : {tempPrice.toLocaleString()}원</h3>
 
-            <h3>구매 가능 코인 : </h3>
-            <h3>주문 총액 : </h3>
+            <label htmlFor="price">주문 수량</label>
+            <input type="number" min={0} value={newCount} step={0.1} onChange={handleChange} />
             <h3>보유 코인 :0 {symbol.toUpperCase()} </h3>
-            <h3>현재 잔고 :0 </h3>
+            <h3>현재 잔고 :{money.toLocaleString()} </h3>
 
-            <button>매수</button>
+            <button onClick={handleBuy} >매수</button>
             <button>매도</button>
           </form>
 

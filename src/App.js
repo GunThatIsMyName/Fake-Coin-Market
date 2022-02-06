@@ -16,6 +16,7 @@ import { useState } from "react";
 // redux
 import { useDispatch } from "react-redux";
 import { setUserData } from "./redux/actions/UserAction";
+import Portfolio from "./Page/Portfolio";
 
 function App() {
   const getUserData = () => {
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/coin/:id" element={<SingleCoin />} />
+        <Route path="/portfolio" element={<Portfolio />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>

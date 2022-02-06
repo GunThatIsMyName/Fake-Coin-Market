@@ -7,7 +7,6 @@ const MainBox = ({
   name,
   homepage,
   github,
-  bitbucket,
   market_cap_rank,
   currentPrice,
   allth,
@@ -26,27 +25,7 @@ const MainBox = ({
       </div>
 
       <ul>
-        {github.length > 0 && <h1>github</h1>}
-        {github.length > 0 &&
-          github.map((item) => {
-            return (
-              <a
-                style={{ display: "block" }}
-                target={"_blank"}
-                href={item}
-                rel="noreferrer"
-                key={item}
-              >
-                {item}
-              </a>
-            );
-          })}
-        {bitbucket.length > 0 && <h1>bitbucket</h1>}
-        {bitbucket.length > 0
-          ? bitbucket.map((item) => {
-              return <li key={item}>{item}</li>;
-            })
-          : null}
+        <h3>hello</h3>
       </ul>
 
       <p>시가총액 순위 : {market_cap_rank}</p>

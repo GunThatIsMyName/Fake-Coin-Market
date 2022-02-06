@@ -13,3 +13,4 @@ export const LOADING_SINGLE_COIN="LOADING_SINGLE_COIN"
 // USER DATA ------------------------
 
 export const SET_USER_INIT="SET_USER_INIT";
+export const BUY_USER_DATA="BUY_USER_DATA";
