@@ -41,10 +41,8 @@ export const BoxWrapper = styled.main`
         }
     }
     .main__footer {
+      margin-top:4rem;
       width: 100%;
-      position: absolute;
-      bottom: 10px;
-      left: 0px;
       display: flex;
       justify-content: space-around;
     }

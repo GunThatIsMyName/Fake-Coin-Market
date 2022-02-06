@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import { useParams } from "react-router-dom";
 
 // REDUX
@@ -10,9 +10,8 @@ import {
 } from "../redux/actions/SingleCoinAction";
 
 // STYLE AND UTILS
-import { SingleCoinWrapper } from "../styles/SingleCoin.style";
 import { currencyConverter } from "../utils/helps";
-import { useState } from "react";
+import { SingleCoinWrapper } from "../styles/SingleCoin.style";
 import { HashTagsWrapper, SingleHeader } from "../styles/SingleHeader";
 import { BoxWrapper } from "../styles/SingleBox.style";
 
@@ -79,7 +78,7 @@ const SingleCoin = () => {
   } = singleItem;
   const {
     homepage,
-    repos_url: { github, bitbucket },
+    repos_url: { github },
   } = links;
   const {
     current_price: { krw: currentPrice },
@@ -149,21 +148,7 @@ const SingleCoin = () => {
 
           <ul className="main__source__code main__list">
             <h3>Source Code 사이트 : </h3>
-            {github.length > 0
-              ? github.map((item) => {
-                  return (
-                    <a
-                      style={{ display: "block" }}
-                      target={"_blank"}
-                      href={item}
-                      rel="noreferrer"
-                      key={item}
-                    >
-                      {item}
-                    </a>
-                  );
-                })
-              : null}
+            <a href={github[0]}>{github[0]}</a>
           </ul>
 
           <div className="main__coin__info">
@@ -175,6 +160,21 @@ const SingleCoin = () => {
             </h3>
             <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
           </div>
+
+          {/* main BUY */}
+
+          <form className="main__form">
+            <label htmlFor="price">현재 가격 : </label>
+            <input name="price" id="price" type="number" placeholder={`${currentPrice.toLocaleString()}원`}  />
+
+            <h3>구매 가능 코인 : </h3>
+            <h3>주문 총액 : </h3>
+            <h3>보유 코인 :0 {symbol.toUpperCase()} </h3>
+            <h3>현재 잔고 :0 </h3>
+
+            <button>매수</button>
+            <button>매도</button>
+          </form>
 
           <footer className="main__footer">
             <div className="main__high">

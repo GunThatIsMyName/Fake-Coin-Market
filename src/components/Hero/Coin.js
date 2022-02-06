@@ -12,7 +12,7 @@ function Coin({
   market_cap,
 }) {
   return (
-    <CoinWrapper id={id} to={{pathname:id,state:{id:"HELLO",symbol:"SYMBOL",name}}}>
+    <CoinWrapper id={id} to={`/coin/${id}`}>
       
       <div className="coin__main">
         <img className="coin__logo" src={image} alt={name} />
