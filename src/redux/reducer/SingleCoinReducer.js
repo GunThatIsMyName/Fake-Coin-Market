@@ -12,13 +12,13 @@ const singleCoinStates = {
         market_data: {},
         links: {},
     },
-    loading:true,
+    loading:false,
 };
 
 export const SingleCoinReducer = (state = singleCoinStates,{ type, payload }) => {
   switch (type) {
     case SINLGE_COIN_DATA:
-        console.log(payload,"pay")
+        console.log("DONE @@ pay")
       return {...state,loading:false,singleItem:{...payload}};
     case LOADING_SINGLE_COIN:
       return {...state,loading:true}

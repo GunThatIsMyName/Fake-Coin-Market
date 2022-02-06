@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const SingleHeader = styled.div`
+export const SingleWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     align-items:center;

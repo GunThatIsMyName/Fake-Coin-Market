@@ -1,12 +1,14 @@
 import { BUY_USER_DATA, PROFIT_USER_DATA, SET_USER_INIT } from "../constance/action"
 
 export const setUserData = (data)=>{
+    console.log("3")
     return{
         type:SET_USER_INIT,
         payload:data
     }
 }
 export const userBuyData = (data)=>{
+    console.log("4")
     return{
         type:BUY_USER_DATA,
         payload:data
