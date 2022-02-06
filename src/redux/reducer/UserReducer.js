@@ -13,7 +13,7 @@ export const userReducer = (state = userStates, { type, payload }) => {
     case BUY_USER_DATA:
       const newState = {
         ...state,
-        money:state.money - payload.newCount * payload.currentPrice ,
+        money:Math.floor(state.money - payload.newCount * payload.currentPrice) ,
         haveCoins: [
           ...state.haveCoins,
           { ...payload, date: new Date().toLocaleString() },

@@ -19,3 +19,10 @@ export const currencyConverter = (price) => {
     }
     return `${parseInt(real)} ${text}`;
   };
+
+
+  export const myTotalCoin=(list)=>{
+    return list.reduce((total,curr)=>{
+      return total+= curr.currentPrice * curr.newCount
+    },0)
+  }

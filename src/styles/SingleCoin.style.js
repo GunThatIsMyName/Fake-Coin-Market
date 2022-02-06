@@ -5,6 +5,7 @@ export const SingleCoinWrapper = styled.section`
   max-width: 1200px;
   width: 80%;
   margin: auto;
+  
   /* border:1px solid var(--color-grey); */
   .single__header {
     display: grid;
@@ -57,6 +58,22 @@ export const SingleCoinWrapper = styled.section`
         overflow-y: auto;
         height: 60vh;
       }
+    }
+  }
+
+  .popup{
+    overflow-x:hidden;
+    position:absolute;
+    bottom:10%;
+    border-radius:10px;
+    width:300px;
+    height:50px;
+    background-color:white;
+    right:3rem;
+    transform:translateX(200%);
+    transition:0.3s all linear;
+    &.active{
+      transform:translateX(0%);
     }
   }
 

@@ -18,13 +18,15 @@ import { userBuyData } from "../redux/actions/UserAction";
 
 const SingleCoin = () => {
   const [isKorean, setKorean] = useState(true);
-
-  const [newCount,setCount]=useState(0);
-  const [tempPrice,setTemp]=useState(0);
+  const [popUp, setPopUp] = useState(false);
+  const [newCount, setCount] = useState(0);
+  const [tempPrice, setTemp] = useState(0);
   const { id: coinID } = useParams();
   const dispatch = useDispatch();
-  const { singleCoin:{singleItem, loading},user:{name:userName,money} } = useSelector((state) => state);
-
+  const {
+    singleCoin: { singleItem, loading },
+    user: { name: userName, money },
+  } = useSelector((state) => state);
 
   // const data = useSelector(state=>state);
   // console.log(data,"data")
@@ -64,25 +66,30 @@ const SingleCoin = () => {
     }
   };
 
-
   // FORM
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-  }
-  const handleChange=(e)=>{
+  };
+  const handleChange = (e) => {
     const newPrice = e.target.value * currentPrice;
-    setCount(e.target.value)
+    setCount(e.target.value);
     setTemp(newPrice);
-  }
-  const handleBuy=()=>{
-    if(tempPrice <= 0){
+  };
+  const handleBuy = () => {
+    if (tempPrice <= 0) {
       return;
     }
-    if(tempPrice > money){
-      return console.log("Can't afford it")
+    if (tempPrice > money) {
+      return alert("돈이 부족합니다!! 자산 포트폴리오를 확인해주세요 ");
     }
-    dispatch(userBuyData({newCount,symbol,name,currentPrice}));
-  }
+    dispatch(userBuyData({ newCount, symbol, name, currentPrice,coinLogo }));
+    setPopUp(true);
+    setCount(0);
+    setTemp(0);
+    setTimeout(() => {
+      setPopUp(false);
+    }, 3000);
+  };
 
   useEffect(() => {
     getSingleData();
@@ -119,6 +126,7 @@ const SingleCoin = () => {
     total_supply,
   } = market_data;
 
+  console.log(popUp, "popUp");
   return (
     <SingleCoinWrapper>
       {/* HEADER */}
@@ -193,18 +201,33 @@ const SingleCoin = () => {
           {/* main BUY */}
 
           <form onSubmit={handleSubmit} className="main__form">
-            <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
-            <h3>구매 가능 코인 :{money / currentPrice} {symbol.toUpperCase()} </h3>
-            <input type="number" onChange={()=>null} value={money / currentPrice} />
-            <h3>주문 총액 : {tempPrice.toLocaleString()}원</h3>
+            <div className="form__box">
+              <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
+              <h3>
+                구매 가능 코인 :{money / currentPrice} {symbol.toUpperCase()}{" "}
+              </h3>
+              <input
+                type="number"
+                onChange={() => null}
+                value={money / currentPrice}
+              />
+              <h3>주문 총액 : {tempPrice.toLocaleString()}원</h3>
 
-            <label htmlFor="price">주문 수량</label>
-            <input type="number" min={0} value={newCount} step={0.1} onChange={handleChange} />
-            <h3>보유 코인 :0 {symbol.toUpperCase()} </h3>
-            <h3>현재 잔고 :{money.toLocaleString()} </h3>
-
-            <button onClick={handleBuy} >매수</button>
-            <button>매도</button>
+              <label htmlFor="price">주문 수량</label>
+              <input
+                type="number"
+                min={0}
+                value={newCount}
+                step={0.1}
+                onChange={handleChange}
+              />
+              <h3>보유 코인 :0 {symbol.toUpperCase()} </h3>
+              <h3>현재 잔고 :{money.toLocaleString()} </h3>
+            </div>
+            <div className="form__btn">
+              <button onClick={handleBuy}>매수</button>
+              <button>매도</button>
+            </div>
           </form>
 
           <footer className="main__footer">
@@ -220,6 +243,8 @@ const SingleCoin = () => {
           </footer>
         </div>
       </BoxWrapper>
+
+      <div className={`popup ${popUp ? "active" : ""}`}></div>
 
       <hr />
     </SingleCoinWrapper>
