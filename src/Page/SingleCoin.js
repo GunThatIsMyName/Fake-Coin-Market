@@ -21,12 +21,11 @@ const SingleCoin = () => {
   const { id: coinID } = useParams();
   const [popUp, setPopUp] = useState(false);
   const dispatch = useDispatch();
-  const {singleItem, loading } = useSelector((state) => state.singleCoin);
+  const {singleCoin:{singleItem, loading} } = useSelector((state) => state);
 
 
   const getSingleData = async () => {
     dispatch(loadingSingleCoin());
-    console.log("1")
     try {
       const response = await fetch(
         `https://api.coingecko.com/api/v3/coins/${coinID}`
@@ -41,22 +40,18 @@ const SingleCoin = () => {
   // FORM
 
   useEffect(() => {
-    console.log("11")
     getSingleData();
     // eslint-disable-next-line
   }, [coinID]);
 
-  console.log(loading)
   if (loading) {
     return <h1>minji .....</h1>;
   }
 
-  console.log("여개 정상")
   const { categories } = singleItem;
 
   return (
     <SingleCoinWrapper>
-      <h2>SINGLE COIN</h2>
       {/* HEADER */}
       <SingleHeader />
       <hr />

@@ -1,27 +1,52 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { userProfitData } from "../redux/actions/UserAction";
 import { PortfolioWrapper } from "../styles/Portfolio.style";
 import { myTotalCoin, uniqueCoins } from "../utils/helps";
 
 const Portfolio = () => {
   const dispatch = useDispatch();
-  const { haveCoins, money } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
-  const myCoins = async()=>{
-    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${uniqueCoins(haveCoins)}&vs_currencies=krw`);
+  const {
+    userData: { haveCoins, money },
+    isLoggedIn,
+  } = useSelector((state) => state.user);
+  const hohoho = useSelector((state) => state);
+  console.log(hohoho,"hoi");
+
+  const myCoins = async () => {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${uniqueCoins(
+        haveCoins
+      )}&vs_currencies=krw`
+    );
     const data = await response.json();
     dispatch(userProfitData(data));
-  }
+  };
 
-  useEffect(()=>{
-    myCoins()
-  },[])
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
+    }
+    myCoins();
+  }, []);
 
+  console.log(haveCoins,"haveCoins")
   return (
     <PortfolioWrapper>
       <div className="coin__list">
+        {haveCoins.length < 1 && (
+          <>
+            <div>
+              <h3>보유 코인이 없습니다.</h3>
+              <p>코인을 구매 하셔서 투자 성공 하세요</p>
+            </div>
+            <hr />
+          </>
+        )}
         {haveCoins.map((item) => {
           const {
             currentPrice: previousPrice,
@@ -42,7 +67,10 @@ const Portfolio = () => {
                 {newCount} {symbol}
               </p>
 
-              <h3 className="coin__price" >보유 가격 : {Math.floor(previousPrice * newCount).toLocaleString()}원</h3>
+              <h3 className="coin__price">
+                보유 가격 :{" "}
+                {Math.floor(previousPrice * newCount).toLocaleString()}원
+              </h3>
 
               <p>{date}</p>
             </div>

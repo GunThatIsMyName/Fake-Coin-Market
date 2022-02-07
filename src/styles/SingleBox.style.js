@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const BoxWrapper = styled.main`
   border-top: 1px solid var(--color-grey);
   padding-top: 1rem;
+
+  .box{
+    border-right:1px solid var(--color-grey);
+  }
   .main {
     position: relative;
     width: 60%;
@@ -52,5 +56,8 @@ export const BoxWrapper = styled.main`
     .main {
       width: 100%;
     }
+    .box{
+    border-right:none;
+  }
   }
 `;

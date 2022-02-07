@@ -29,7 +29,6 @@ const SingleHeader = () => {
 
   return (
     <SingleWrapper className="single__header">
-      <h3>HLEOO</h3>
       <div className="single__logo">
         <img className="single__image" src={coinLogo} alt={name} />
         <h4 className="single__coin">

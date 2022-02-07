@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userBuyData } from "../../redux/actions/UserAction";
+import { setUserData, userBuyData } from "../../redux/actions/UserAction";
 import { BoxWrapper } from "../../styles/SingleBox.style";
 import { currencyConverter, myCoinCount } from "../../utils/helps";
+import Description from "./Description";
 
 const MainBox = ({ setPopUp }) => {
   const [newCount, setCount] = useState(0);
   const [tempPrice, setTemp] = useState(0);
-  const [isKorean, setKorean] = useState(true);
 
   const dispatch = useDispatch();
 
   const {
-    singleCoin: { singleItem, loading },
+    singleCoin: { singleItem },
     user,
   } = useSelector((state) => state);
-  const { money, haveCoins } = user && user;
-  console.log({money,haveCoins})
+  const {isLoading,isLoggedIn}=user;
+  const { money, haveCoins } = user.userData;
+
+  console.log(user,"user data")
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -32,6 +34,7 @@ const MainBox = ({ setPopUp }) => {
     if (tempPrice > money) {
       return alert("돈이 부족합니다!! 자산 포트폴리오를 확인해주세요 ");
     }
+    console.log(haveCoins,"haveCoins")
     dispatch(userBuyData({ newCount, symbol, name, currentPrice, coinLogo }));
     setPopUp(true);
     setCount(0);
@@ -42,6 +45,9 @@ const MainBox = ({ setPopUp }) => {
   };
 
   const haveCoinCount = (data) => {
+    if (!data) {
+      return null;
+    }
     return data.filter((item) => {
       if (item.symbol === singleItem.symbol) {
         return item;
@@ -50,16 +56,34 @@ const MainBox = ({ setPopUp }) => {
     });
   };
 
+  const handleLogin = () => {
+    const user = {
+      name: "기본 유저",
+      money: 10000000,
+      haveCoins: [],
+      profitCoins: [],
+    };
+    localStorage.setItem("user_info", JSON.stringify(user));
+    dispatch(setUserData(user));
+  };
+
   const dataIs = singleItem.name !== "" && singleItem.symbol !== "";
 
-  if (!dataIs || !money) {
-    return null;
+
+  console.log(user,"@@@@@????")
+  if(isLoading){
+    return <h1>LOADING . . .</h1>
   }
+
+  if (!dataIs) {
+    return <h1>HELLO</h1>;
+  }
+
+  console.log(user,"@@@@@")
 
   const {
     name,
     symbol,
-    description,
     image: { small: coinLogo },
     market_cap_rank,
     market_data,
@@ -81,23 +105,8 @@ const MainBox = ({ setPopUp }) => {
 
   return (
     <BoxWrapper>
-      <div className="box">
-        <div className="box__btn">
-          <button onClick={() => setKorean(true)}>한국어</button>
-          <button onClick={() => setKorean(false)}>ENG</button>
-        </div>
-        <h4
-          dangerouslySetInnerHTML={{
-            __html: isKorean
-              ? description.ko
-                ? description.ko
-                : "한국어 정보가 없습니다. 죄송합니다."
-              : description.en
-              ? description.en
-              : "NO English Information Sorry.",
-          }}
-        />
-      </div>
+      {/* Description box */}
+      <Description />
 
       <div className="main">
         <h3 className="main__title">{name} 정보</h3>
@@ -126,37 +135,46 @@ const MainBox = ({ setPopUp }) => {
           </h3>
         </div>
 
-        {/* main BUY */}
-
         <form onSubmit={handleSubmit} className="main__form">
           <div className="form__box">
             <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
-            <h3>
-              구매 가능 코인 :{money / currentPrice} {symbol.toUpperCase()}{" "}
-            </h3>
 
-            <h3>
-              보유 코인 :{myCoinCount(haveCoinCount(haveCoins))}{" "}
-              {symbol.toUpperCase()}{" "}
-            </h3>
-            <h3>현재 잔고 :{money.toLocaleString()} 원 </h3>
+            {isLoggedIn && (
+              <>
+                <h3>
+                  구매 가능 코인 :{money / currentPrice} {symbol.toUpperCase()}{" "}
+                </h3>
+
+                <h3>
+                  보유 코인 :{myCoinCount(haveCoinCount(haveCoins))}{" "}
+                  {symbol.toUpperCase()}{" "}
+                </h3>
+                <h3>현재 잔고 :{money.toLocaleString()} 원 </h3>
+              </>
+            )}
           </div>
           <div className="form__btn">
-            <div className="form__buy__box">
-              <h3>주문 총액 : {tempPrice.toLocaleString()}원</h3>
-              <label htmlFor="price">주문 수량</label>
-              <input
-                type="number"
-                min={0}
-                value={newCount}
-                step={0.1}
-                onChange={handleChange}
-              />
-            </div>
-            <button className="bull" onClick={handleBuy}>
-              매수
-            </button>
-            <button className="bearish">매도</button>
+            {isLoggedIn ? (
+              <>
+                <div className="form__buy__box">
+                  <h3>주문 총액 : {tempPrice.toLocaleString()}원</h3>
+                  <label htmlFor="price">주문 수량</label>
+                  <input
+                    type="number"
+                    min={0}
+                    value={newCount}
+                    step={0.1}
+                    onChange={handleChange}
+                  />
+                </div>
+                <button className="bull" onClick={handleBuy}>
+                  매수
+                </button>
+                <button className="bearish">매도</button>
+              </>
+            ) : (
+              <button onClick={handleLogin}> 로그인후 매수, 매도 하기!</button>
+            )}
           </div>
         </form>
 

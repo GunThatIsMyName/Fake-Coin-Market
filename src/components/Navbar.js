@@ -11,25 +11,20 @@ import { NavbarWrapper } from "../styles/Navbar.style";
 function Navbar() {
   // redux
   const dispatch = useDispatch();
-  const {name,money} = useSelector((state) => state.user);
+  const {isLoggedIn,userData} = useSelector((state) => state.user);
+  const data = useSelector((state) => state);
 
   const handleUser = () => {
     const user = {
       name: "기본 유저",
       money: 10000000,
+      haveCoins: [],
+      profitCoins: [],
     };
     localStorage.setItem("user_info", JSON.stringify(user));
     dispatch(setUserData(user));
   };
 
-  // const handleChange = () => {
-  //   const newUser = {
-  //     name: "변경",
-  //     money: userData.moeny,
-  //   };
-  //   localStorage.setItem("user_info", JSON.stringify(newUser));
-  //   // setUser(newUser);
-  // };
 
 
   return (
@@ -44,11 +39,11 @@ function Navbar() {
       </Link>
 
       <div className="navbar__user">
-        {name !== "" ? (
+        {isLoggedIn ? (
           <>
             <div className="user__info">
-              <h1>유저 : {name}</h1>
-              <h4> 자산 총액 {money} 원</h4>
+              <h1>유저 : {userData.name}</h1>
+              <h4> 자산 총액 {userData.money} 원</h4>
             </div>
             <Link to="/portfolio">
             <button>자산 포트폴리오</button>

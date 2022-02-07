@@ -11,20 +11,32 @@ import Navbar from "./components/Navbar";
 // Page
 import Hero from "./components/Hero";
 import SingleCoin from "./Page/SingleCoin";
-import { useState } from "react";
 
 // redux
 import { useDispatch } from "react-redux";
-import { setUserData } from "./redux/actions/UserAction";
+import { readyreadyready, setUserData } from "./redux/actions/UserAction";
 import Portfolio from "./Page/Portfolio";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
+  console.log("1")
+  dispatch(readyreadyready())
+  console.log("2")
+
   const getUserData = () => {
+    console.log("App 에서 실행임....")
     const hello = localStorage.getItem("user_info");
+    if(!hello){
+      return null;
+    }
     return JSON.parse(hello);
   };
-  const dispatch = useDispatch();
-  dispatch(setUserData(getUserData()));
+  
+  useEffect(()=>{
+    dispatch(setUserData(getUserData()));
+  },[])
+
   // const [user,setUser]=useState(getUserData());
 
   return (
@@ -32,8 +44,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Hero />} />
-        <Route path="/coin/:id" element={<SingleCoin />} />
         <Route path="/portfolio" element={<Portfolio />} />
+        <Route path="/coin/:id" element={<SingleCoin />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
