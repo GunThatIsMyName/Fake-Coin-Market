@@ -40,8 +40,10 @@ export const userReducer = (state = userStates, { type, payload }) => {
       };
       localStorage.setItem("user_info", JSON.stringify(newState.userData));
       return newState;
-    case PROFIT_USER_DATA:
-      return state;
+      case PROFIT_USER_DATA:
+        const newProfitState = {...state,userData:{...state.userData,profitCoins:payload}}
+        localStorage.setItem("user_info", JSON.stringify(newProfitState.userData));
+      return newProfitState;
     case LOADING_USER_DATA:
       return {...state,isLoading:true};
     default:

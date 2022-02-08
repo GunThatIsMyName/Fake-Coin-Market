@@ -1,6 +1,3 @@
-import { useDispatch } from "react-redux";
-import { setUserData } from "../redux/actions/UserAction";
-
 // 억, 조 단위 계산기
 export const currencyConverter = (price) => {
   let count = price.toString().length;
@@ -39,6 +36,6 @@ export const myCoinCount = (list) => {
 };
 
 export const uniqueCoins = (data) => {
-  const list = [...new Set(data.map((item) => item.name))];
-  return list.join(",");
+  const list = [...new Set(data.map((item) => item.coinID))];
+  return list.join(",").replace(/\s/g, '');
 };

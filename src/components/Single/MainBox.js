@@ -18,10 +18,6 @@ const MainBox = ({ setPopUp }) => {
   const {isLoading,isLoggedIn}=user;
   const { money, haveCoins } = user.userData;
 
-  console.log(user,"user data")
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   const handleChange = (e) => {
     const newPrice = e.target.value * currentPrice;
     setCount(e.target.value);
@@ -34,8 +30,7 @@ const MainBox = ({ setPopUp }) => {
     if (tempPrice > money) {
       return alert("돈이 부족합니다!! 자산 포트폴리오를 확인해주세요 ");
     }
-    console.log(haveCoins,"haveCoins")
-    dispatch(userBuyData({ newCount, symbol, name, currentPrice, coinLogo }));
+    dispatch(userBuyData({ coinID,newCount, symbol, name, currentPrice, coinLogo }));
     setPopUp(true);
     setCount(0);
     setTemp(0);
@@ -67,19 +62,15 @@ const MainBox = ({ setPopUp }) => {
     dispatch(setUserData(user));
   };
 
+  
   const dataIs = singleItem.name !== "" && singleItem.symbol !== "";
-
-
-  console.log(user,"@@@@@????")
   if(isLoading){
     return <h1>LOADING . . .</h1>
   }
-
-  if (!dataIs) {
-    return <h1>HELLO</h1>;
+  if(!dataIs){
+    return <h1>LOADING . . .</h1>
   }
 
-  console.log(user,"@@@@@")
 
   const {
     name,
@@ -88,6 +79,7 @@ const MainBox = ({ setPopUp }) => {
     market_cap_rank,
     market_data,
     links,
+    coinID
   } = singleItem;
   const {
     current_price: { krw: currentPrice },
@@ -135,7 +127,7 @@ const MainBox = ({ setPopUp }) => {
           </h3>
         </div>
 
-        <form onSubmit={handleSubmit} className="main__form">
+        <form onSubmit={(e)=>{e.preventDefault()}} className="main__form">
           <div className="form__box">
             <h3>현재 가격 :{currentPrice.toLocaleString()} 원</h3>
 

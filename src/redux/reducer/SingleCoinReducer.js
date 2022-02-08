@@ -18,7 +18,6 @@ const singleCoinStates = {
 export const SingleCoinReducer = (state = singleCoinStates,{ type, payload }) => {
   switch (type) {
     case SINLGE_COIN_DATA:
-        console.log("DONE @@ pay")
       return {...state,loading:false,singleItem:{...payload}};
     case LOADING_SINGLE_COIN:
       return {...state,loading:true}

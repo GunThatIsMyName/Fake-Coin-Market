@@ -7,8 +7,6 @@ const coinStates = {
 export const coinReducer = (state = coinStates, { type, payload }) => {
   switch (type) {
     case SET_COIN_DATA:
-      console.log(payload)
-      console.log(state)
       return { ...state, coin: [...state.coin, ...payload] };
     case RESET_COIN_DATA:
       return coinStates;

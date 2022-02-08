@@ -31,7 +31,7 @@ const SingleCoin = () => {
         `https://api.coingecko.com/api/v3/coins/${coinID}`
       );
       const {name,symbol,description,categories,image,last_updated,market_data,market_cap_rank,links} = await response.json();
-      dispatch(setSingleCoin({name,description,symbol,categories,image,last_updated,market_data,market_cap_rank,links}));
+      dispatch(setSingleCoin({name,description,symbol,categories,image,last_updated,market_data,market_cap_rank,links,coinID}));
     } catch {
       dispatch();
     }

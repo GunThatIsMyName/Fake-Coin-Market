@@ -11,6 +11,7 @@ import { HeroWrapper, HeroEvent } from "../styles/Hero.style";
 // COMPONENTS
 import Coin from "./Hero/Coin";
 import { CoinItem } from "./Hero/CoinItem";
+import { isCompositeComponentWithType } from "react-dom/cjs/react-dom-test-utils.development";
 
 const Hero = () => {
   const [page, setPage] = useState(1);
@@ -22,7 +23,6 @@ const Hero = () => {
       `${coinApiEndPoint}per_page=8&page=${page}&sparkline=false`
     );
     const data = await response.json();
-
     dispatch(setCoins(data));
   };
 
@@ -36,7 +36,6 @@ const Hero = () => {
     };
   }, []);
 
-  console.log(coin, "coin");
 
   return (
     <HeroWrapper>

@@ -4,14 +4,12 @@ import { SingleWrapper } from "../../styles/SingleHeader";
 
 const SingleHeader = () => {
   const { singleItem } = useSelector((state) => state.singleCoin);
-  // console.log(singleItem)
 
   const dataIs = singleItem.name !== "" && singleItem.symbol !== "";
 
   if (!dataIs) {
     return null;
   }
-  console.log(singleItem, "single");
   const {
     name,
     symbol,
