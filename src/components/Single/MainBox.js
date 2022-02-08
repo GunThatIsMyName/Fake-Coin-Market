@@ -38,6 +38,9 @@ const MainBox = ({ setPopUp }) => {
       setPopUp(false);
     }, 3000);
   };
+  const handleSell=()=>{
+    alert("단기 투자는 좋지 않습니다! 장기간의 투자로 현명하게 투자하세요!")
+  }
 
   const haveCoinCount = (data) => {
     if (!data) {
@@ -162,7 +165,7 @@ const MainBox = ({ setPopUp }) => {
                 <button className="bull" onClick={handleBuy}>
                   매수
                 </button>
-                <button className="bearish">매도</button>
+                <button  onClick={handleSell} className="bearish">매도</button>
               </>
             ) : (
               <button onClick={handleLogin}> 로그인후 매수, 매도 하기!</button>
